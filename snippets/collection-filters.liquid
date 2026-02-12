@@ -1,0 +1,24 @@
+{%- comment -%}
+  Reusable storefront filter UI.
+  Uses native Shopify collection.filters object.
+{%- endcomment -%}
+{% if collection.filters != empty %}
+  <form id="CollectionFiltersForm" method="get">
+    {% for filter in collection.filters %}
+      <details open>
+        <summary>{{ filter.label }}</summary>
+        <ul role="list">
+          {% for filter_value in filter.values %}
+            <li>
+              <label>
+                <input type="checkbox" name="{{ filter.param_name }}" value="{{ filter_value.value }}" {% if filter_value.active %}checked{% endif %}>
+                {{ filter_value.label }} ({{ filter_value.count }})
+              </label>
+            </li>
+          {% endfor %}
+        </ul>
+      </details>
+    {% endfor %}
+    <button type="submit" class="button button--small">Apply filters</button>
+  </form>
+{% endif %}
