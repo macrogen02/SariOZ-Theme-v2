@@ -1,0 +1,23 @@
+<section class="section newsletter" aria-labelledby="NewsletterTitle">
+  <div class="container newsletter__inner">
+    <h2 id="NewsletterTitle">{{ section.settings.heading }}</h2>
+    <p>{{ section.settings.text }}</p>
+    {% form 'customer', class: 'newsletter-form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label class="visually-hidden" for="NewsletterEmail">Email address</label>
+      <input id="NewsletterEmail" type="email" name="contact[email]" placeholder="Enter your email" required>
+      <button class="button" type="submit">Subscribe</button>
+    {% endform %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter signup",
+  "settings": [
+    {"type": "text", "id": "heading", "default": "Get weekly offers", "label": "Heading"},
+    {"type": "textarea", "id": "text", "default": "Sign up for product drops, recipes, and exclusive SARIOZ deals.", "label": "Text"}
+  ],
+  "presets": [{"name": "Newsletter signup"}]
+}
+{% endschema %}

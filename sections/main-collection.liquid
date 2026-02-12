@@ -1,0 +1,26 @@
+<section class="section container" aria-labelledby="CollectionTitle">
+  <header class="section__header">
+    <h1 id="CollectionTitle">{{ collection.title }}</h1>
+    <p class="text-muted">{{ collection.products_count }} products</p>
+  </header>
+
+  <div class="collection-layout">
+    <aside class="collection-filters" aria-label="Collection filters">
+      {% render 'collection-filters', collection: collection %}
+    </aside>
+
+    <div>
+      <div class="product-grid">
+        {% for product in collection.products %}
+          {% render 'product-card', product: product %}
+        {% else %}
+          <p>No products found.</p>
+        {% endfor %}
+      </div>
+
+      {% if paginate.pages > 1 %}
+        {% render 'pagination', paginate: paginate %}
+      {% endif %}
+    </div>
+  </div>
+</section>

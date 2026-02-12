@@ -1,0 +1,50 @@
+<header class="site-header" role="banner" data-sticky-header>
+  <div class="container site-header__inner">
+    <a class="site-header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }} home">
+      {%- if settings.logo != blank -%}
+        {{ settings.logo | image_url: width: 220 | image_tag: alt: shop.name, loading: 'eager' }}
+      {%- else -%}
+        <span class="site-header__brand">SARIOZ</span>
+      {%- endif -%}
+    </a>
+
+    <button class="icon-button site-header__menu-toggle" type="button" aria-expanded="false" aria-controls="MobileNav" data-mobile-nav-toggle>
+      ☰
+      <span class="visually-hidden">Open menu</span>
+    </button>
+
+    <nav class="site-nav" aria-label="Primary">
+      <ul class="site-nav__list" role="list">
+        {%- for link in linklists.main-menu.links -%}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- else -%}
+          <li><a href="{{ routes.collections_url }}">Shop all</a></li>
+          <li><a href="/collections/weekly-specials">Weekly specials</a></li>
+          <li><a href="/pages/about">About</a></li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <button class="icon-button" type="button" data-search-open aria-haspopup="dialog" aria-controls="SearchOverlay">
+        🔍<span class="visually-hidden">Search</span>
+      </button>
+      <a class="icon-button" href="{{ routes.account_url }}" aria-label="Account">👤</a>
+      <button class="icon-button" type="button" data-cart-open aria-haspopup="dialog" aria-controls="CartDrawer">
+        🛒<span class="visually-hidden">Open cart</span>
+      </button>
+    </div>
+  </div>
+
+  <nav id="MobileNav" class="mobile-nav" aria-label="Mobile" hidden>
+    <ul role="list">
+      {%- for link in linklists.main-menu.links -%}
+        <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+      {%- else -%}
+        <li><a href="{{ routes.collections_url }}">Shop all</a></li>
+        <li><a href="/collections/fresh-produce">Fresh produce</a></li>
+        <li><a href="/collections/weekly-specials">Weekly specials</a></li>
+      {%- endfor -%}
+    </ul>
+  </nav>
+</header>

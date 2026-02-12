@@ -1,0 +1,94 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#2d6cdf">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} · tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} · Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} · {{ shop.name }}{% endunless -%}
+    </title>
+
+    {{ content_for_header }}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'theme.js' | asset_url | script_tag }}
+  </head>
+
+  <body>
+    <a class="skip-link focus-visible" href="#MainContent">Skip to content</a>
+
+    <div id="SearchOverlay" class="search-overlay" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="SearchOverlayTitle">
+      <div class="search-overlay__backdrop" data-search-close></div>
+      <div class="search-overlay__panel">
+        <button class="icon-button" type="button" data-search-close aria-label="Close search">✕</button>
+        <h2 id="SearchOverlayTitle">Search products</h2>
+        <predictive-search>
+          <form action="{{ routes.search_url }}" method="get" role="search" class="search-overlay__form">
+            <label class="visually-hidden" for="SearchOverlayInput">Search</label>
+            <input
+              id="SearchOverlayInput"
+              type="search"
+              name="q"
+              value="{{ search.terms | escape }}"
+              placeholder="Search groceries, pantry, specials..."
+              autocomplete="off"
+              role="combobox"
+              aria-expanded="false"
+              aria-owns="predictive-search-results"
+              aria-controls="predictive-search-results"
+              aria-haspopup="listbox"
+              aria-autocomplete="list"
+            >
+            <input type="hidden" name="options[prefix]" value="last">
+            <button class="button" type="submit">Search</button>
+          </form>
+          <div id="predictive-search-results" class="predictive-search-results" role="listbox" aria-label="Search suggestions"></div>
+        </predictive-search>
+      </div>
+    </div>
+
+    {% render 'header' %}
+
+    <main id="MainContent" class="main-content" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% render 'footer' %}
+
+    <div id="CartDrawer" class="cart-drawer" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="CartDrawerTitle">
+      <div class="cart-drawer__backdrop" data-cart-close></div>
+      <aside class="cart-drawer__panel">
+        <header class="cart-drawer__header">
+          <h2 id="CartDrawerTitle">Your cart</h2>
+          <button type="button" class="icon-button" data-cart-close aria-label="Close cart">✕</button>
+        </header>
+        <div id="CartDrawerItems" class="cart-drawer__items">
+          <p class="text-muted">Loading cart…</p>
+        </div>
+        <footer class="cart-drawer__footer">
+          <a class="button button--secondary" href="{{ routes.cart_url }}">View cart</a>
+          <a class="button" href="{{ routes.checkout_url }}">Checkout</a>
+        </footer>
+      </aside>
+    </div>
+
+    <div id="QuickViewModal" class="quick-view" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="QuickViewTitle">
+      <div class="quick-view__backdrop" data-quick-view-close></div>
+      <article class="quick-view__panel" id="QuickViewContent">
+        <button class="icon-button" data-quick-view-close aria-label="Close quick view">✕</button>
+        <h2 id="QuickViewTitle">Quick view</h2>
+        <div class="text-muted">Select a product card quick view button to load details.</div>
+      </article>
+    </div>
+  </body>
+</html>

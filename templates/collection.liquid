@@ -1,0 +1,24 @@
+{% paginate collection.products by 24 %}
+  <section class="section container" aria-labelledby="CollectionTitle">
+    <header class="section__header">
+      <h1 id="CollectionTitle">{{ collection.title }}</h1>
+      {% if collection.description != blank %}
+        <p>{{ collection.description }}</p>
+      {% endif %}
+    </header>
+
+    <div class="collection-layout">
+      <aside class="collection-filters" aria-label="Collection filters">
+        {% render 'collection-filters', collection: collection %}
+      </aside>
+
+      <div class="product-grid">
+        {% for product in collection.products %}
+          {% render 'product-card', product: product %}
+        {% else %}
+          <p>No results found.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endpaginate %}

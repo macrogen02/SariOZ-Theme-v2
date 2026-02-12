@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "hero": {"type": "hero-banner", "settings": {}},
+    "featured": {"type": "featured-collections", "settings": {}, "blocks": {}},
+    "specials": {"type": "weekly-specials", "settings": {}},
+    "newsletter": {"type": "newsletter-signup", "settings": {}}
+  },
+  "order": ["hero", "featured", "specials", "newsletter"]
+}
