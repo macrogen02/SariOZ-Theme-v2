@@ -1,0 +1,45 @@
+<section class="section container" aria-labelledby="ProductTitle">
+  <div class="product-layout">
+    <div class="product-gallery">
+      <div class="product-gallery__main">
+        {{ product.featured_media | image_url: width: 1000 | image_tag: alt: product.title, loading: 'eager' }}
+      </div>
+      <div class="product-gallery__thumbs" role="list" aria-label="Product image thumbnails">
+        {% for media in product.media %}
+          <button class="thumb" type="button" role="listitem">
+            {{ media | image_url: width: 160 | image_tag: alt: product.title, loading: 'lazy' }}
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="product-info">
+      <h1 id="ProductTitle">{{ product.title }}</h1>
+      <p class="price price--large">{{ product.price | money }}</p>
+      {% if product.compare_at_price > product.price %}
+        <p class="text-muted"><s>{{ product.compare_at_price | money }}</s></p>
+      {% endif %}
+
+      {% form 'product', product %}
+        <label for="VariantSelect" class="visually-hidden">Choose variant</label>
+        <select id="VariantSelect" name="id">
+          {% for variant in product.variants %}
+            <option value="{{ variant.id }}" {% if variant == product.selected_or_first_available_variant %}selected{% endif %}>
+              {{ variant.title }} - {{ variant.price | money }}
+            </option>
+          {% endfor %}
+        </select>
+        <button class="button" type="submit">Add to cart</button>
+      {% endform %}
+
+      <div class="rte">
+        {{ product.description }}
+      </div>
+
+      <section class="review-placeholder" aria-label="Product reviews">
+        <h2>Customer reviews</h2>
+        <p class="text-muted">Reviews app block placeholder. Connect your review provider here.</p>
+      </section>
+    </div>
+  </div>
+</section>

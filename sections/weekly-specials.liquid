@@ -1,0 +1,41 @@
+<section class="section section--muted" aria-labelledby="WeeklySpecialsTitle">
+  <div class="container">
+    <div class="section__header">
+      <h2 id="WeeklySpecialsTitle">{{ section.settings.heading }}</h2>
+      <a href="{{ section.settings.collection.url }}">View all specials</a>
+    </div>
+
+    <div class="product-grid">
+      {% for product in section.settings.collection.products limit: section.settings.products_to_show %}
+        <article class="product-card">
+          <a href="{{ product.url }}" class="product-card__image">
+            {{ product.featured_image | image_url: width: 520 | image_tag: alt: product.title, loading: 'lazy' }}
+          </a>
+          <div class="product-card__body">
+            <h3><a href="{{ product.url }}">{{ product.title }}</a></h3>
+            <p class="price">{{ product.price | money }}</p>
+            <div class="product-card__actions">
+              <form method="post" action="/cart/add">
+                <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                <button class="button button--small" type="submit">Add to cart</button>
+              </form>
+              <button type="button" class="button button--ghost button--small" data-quick-view-handle="{{ product.handle }}">Quick view</button>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Weekly specials",
+  "settings": [
+    {"type": "text", "id": "heading", "default": "Weekly specials", "label": "Heading"},
+    {"type": "collection", "id": "collection", "label": "Collection"},
+    {"type": "range", "id": "products_to_show", "min": 4, "max": 12, "step": 1, "default": 4, "label": "Products to show"}
+  ],
+  "presets": [{"name": "Weekly specials"}]
+}
+{% endschema %}
